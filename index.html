@@ -33,6 +33,7 @@
     font-weight: 700;
     font-display: swap;
 }
+
 </style>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
@@ -57,7 +58,6 @@ font-family: var(–body);
 background: var(–bg);
 color: var(–dark);
 overflow-x: hidden;
-display: flex;
 justify-content: center;
 }
 
@@ -92,6 +92,8 @@ opacity: 0.7;
 pointer-events: none;
 z-index: 0;
 }
+
+
 
 /* SPARKLE CANVAS */
 #sparkleCanvas {
@@ -717,6 +719,12 @@ white-space: nowrap;
 text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
+body::after {
+  content: '';
+  display: block;
+}
+
+
 </style>
 
 </head>
