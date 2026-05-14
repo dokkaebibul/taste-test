@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✦ 취향 정체성 테스트 ✦</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<style>
+@import url('https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css');
+@font-face {
+    font-family: 'Galmuri11';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2506-1@1.0/Galmuri11-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-display: swap;
+}
+</style>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+–pink: #FF9ECD;
+–pink-light: #FFD6EC;
+–blue: #7EC8FF;
+–yellow: #FFE566;
+–mint: #7FFFD4;
+–purple: #C9A7FF;
+–orange: #FFB347;
+–bg: #FFF5FB;
+–dark: #3a1a5e;
+–pixel: ‘Galmuri11’, monospace;
+–body: ‘Galmuri11’, monospace;
+}
+
+html, body {
+height: 100%;
+font-family: var(–body);
+background: var(–bg);
+color: var(–dark);
+overflow-x: hidden;
+}
+
+/* PIXEL BORDER MIXIN */
+.pixel-border {
+border: 3px solid var(–dark);
+box-shadow: 4px 4px 0 var(–dark);
+}
+.pixel-border-lg {
+border: 4px solid var(–dark);
+box-shadow: 6px 6px 0 var(–dark);
+}
+
+/* BACKGROUND — bright pastel gradient */
+body {
+background: linear-gradient(160deg, #FFF0FB 0%, #FFF8E1 40%, #F0FAFF 100%);
+background-attachment: fixed;
+}
+
+body::before {
+content: ‘’;
+position: fixed;
+inset: 0;
+background-image:
+radial-gradient(circle at 15% 15%, #FFD6EC 0%, transparent 45%),
+radial-gradient(circle at 85% 20%, #D6EEFF 0%, transparent 40%),
+radial-gradient(circle at 50% 80%, #FFF2C2 0%, transparent 50%),
+radial-gradient(circle at 80% 70%, #E8D6FF 0%, transparent 40%);
+opacity: 0.7;
+pointer-events: none;
+z-index: 0;
+}
+
+/* SPARKLE CANVAS */
+#sparkleCanvas {
+position: fixed;
+inset: 0;
+pointer-events: none;
+z-index: 0;
+}
+
+/* PIXEL DECORATIONS */
+.pixel-star {
+display: inline-block;
+font-family: var(–pixel);
+font-size: 10px;
+animation: blink 1.5s infinite;
+}
+@keyframes blink {
+0%, 100% { opacity: 1; }
+50% { opacity: 0.2; }
+}
+@keyframes float {
+0%, 100% { transform: translateY(0); }
+50% { transform: translateY(-8px); }
+}
+@keyframes slideIn {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+@keyframes popIn {
+0% { transform: scale(0.8); opacity: 0; }
+70% { transform: scale(1.05); }
+100% { transform: scale(1); opacity: 1; }
+}
+@keyframes shimmer {
+0% { background-position: -200% center; }
+100% { background-position: 200% center; }
+}
+@keyframes marquee {
+0% { transform: translateX(0); }
+100% { transform: translateX(-50%); }
+}
+
+/* MARQUEE BANNER */
+.marquee-wrap {
+background: linear-gradient(90deg, #FF9ECD, #C9A7FF, #7EC8FF, #FF9ECD);
+background-size: 300% 100%;
+animation: gradientMove 4s linear infinite;
+color: white;
+font-family: var(–pixel);
+font-size: 12px;
+padding: 10px 0;
+overflow: hidden;
+border-bottom: 3px solid var(–dark);
+position: relative;
+z-index: 10;
+text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+}
+@keyframes gradientMove {
+0% { background-position: 0% 50%; }
+100% { background-position: 100% 50%; }
+}
+.marquee-inner {
+display: flex;
+white-space: nowrap;
+animation: marquee 20s linear infinite;
+}
+.marquee-inner span {
+padding: 0 40px;
+}
+
+/* MAIN CONTAINER */
+#app {
+position: relative;
+z-index: 1;
+max-width: 680px;
+margin: 0 auto;
+padding: 0 16px 60px;
+}
+
+/* SCREENS */
+.screen { display: none; }
+.screen.active {
+display: block;
+animation: slideIn 0.4s ease;
+}
+
+/* ===== INTRO SCREEN — full viewport, no scroll ===== */
+#introScreen {
+height: calc(100dvh - 46px); /* minus marquee height */
+display: none;
+flex-direction: column;
+justify-content: space-between;
+padding: 16px 0 20px;
+overflow: hidden;
+}
+#introScreen.active {
+display: flex;
+animation: slideIn 0.4s ease;
+}
+
+.intro-header {
+text-align: center;
+flex-shrink: 0;
+}
+
+.site-badge {
+display: inline-block;
+background: linear-gradient(135deg, var(–pink), var(–purple));
+font-family: var(–pixel);
+font-size: 11px;
+padding: 7px 14px;
+border: 2px solid var(–dark);
+box-shadow: 3px 3px 0 var(–dark);
+margin-bottom: 12px;
+letter-spacing: 1px;
+color: white;
+text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+}
+
+.intro-title {
+font-family: var(–pixel);
+font-size: clamp(16px, 4.5vw, 22px);
+line-height: 2;
+color: var(–dark);
+margin-bottom: 6px;
+}
+.intro-title .highlight {
+background: var(–yellow);
+padding: 2px 10px;
+border: 2px solid var(–dark);
+box-shadow: 2px 2px 0 var(–dark);
+}
+
+.intro-sub {
+font-size: 14px;
+color: #5a3a7a;
+line-height: 1.7;
+margin: 8px 0 10px;
+font-weight: 400;
+}
+
+/* FLOATING ICONS */
+.float-icons {
+display: flex;
+justify-content: center;
+gap: 14px;
+margin: 8px 0;
+}
+.float-icon {
+font-size: 24px;
+animation: float 3s ease-in-out infinite;
+}
+.float-icon:nth-child(2) { animation-delay: 0.5s; }
+.float-icon:nth-child(3) { animation-delay: 1s; }
+.float-icon:nth-child(4) { animation-delay: 1.5s; }
+.float-icon:nth-child(5) { animation-delay: 2s; }
+
+/* INFO CARD */
+.info-card {
+background: rgba(255,255,255,0.85);
+backdrop-filter: blur(8px);
+border: 3px solid var(–dark);
+box-shadow: 5px 5px 0 var(–dark);
+padding: 14px 18px;
+margin: 0;
+border-radius: 4px;
+flex: 1;
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
+.info-card-title {
+font-family: var(–pixel);
+font-size: 11px;
+color: var(–dark);
+margin-bottom: 10px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.info-card-title::before {
+content: ‘▶’;
+color: var(–pink);
+}
+.info-row {
+display: flex;
+gap: 10px;
+margin-bottom: 8px;
+align-items: center;
+}
+.info-icon { font-size: 18px; flex-shrink: 0; }
+.info-text { font-size: 13px; color: #3a1a5e; line-height: 1.5; }
+
+/* START BTN */
+.start-btn {
+display: block;
+width: 100%;
+padding: 15px;
+background: linear-gradient(135deg, #FF9ECD, #FFB3E0);
+border: 4px solid var(–dark);
+box-shadow: 6px 6px 0 var(–dark);
+font-family: var(–pixel);
+font-size: 13px;
+color: var(–dark);
+cursor: pointer;
+letter-spacing: 1px;
+transition: all 0.1s;
+text-align: center;
+margin-top: 14px;
+flex-shrink: 0;
+}
+.start-btn:hover {
+transform: translate(-2px, -2px);
+box-shadow: 8px 8px 0 var(–dark);
+background: linear-gradient(135deg, #FFB3E0, #C9A7FF);
+}
+.start-btn:active {
+transform: translate(4px, 4px);
+box-shadow: 2px 2px 0 var(–dark);
+}
+
+/* ===== QUESTION SCREEN ===== */
+.q-header {
+margin-bottom: 16px;
+padding-top: 16px;
+}
+.q-progress-label {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 10px;
+}
+.q-num {
+font-family: var(–pixel);
+font-size: 13px;
+color: var(–dark);
+}
+.q-count {
+font-family: var(–pixel);
+font-size: 13px;
+color: #9b6ab0;
+}
+.progress-bar-wrap {
+background: #f0d6f5;
+border: 2px solid var(–dark);
+height: 14px;
+position: relative;
+border-radius: 2px;
+}
+.progress-bar-fill {
+height: 100%;
+background: linear-gradient(90deg, var(–pink), var(–purple));
+transition: width 0.4s ease;
+position: relative;
+}
+.progress-bar-fill::after {
+content: ‘★’;
+position: absolute;
+right: -8px;
+top: -6px;
+font-size: 16px;
+color: var(–yellow);
+-webkit-text-stroke: 1px var(–dark);
+}
+
+.q-card {
+background: rgba(255,255,255,0.92);
+backdrop-filter: blur(8px);
+border: 4px solid var(–dark);
+box-shadow: 6px 6px 0 var(–dark);
+padding: 28px 24px;
+margin-bottom: 20px;
+animation: popIn 0.3s ease;
+}
+.q-category {
+font-family: var(–pixel);
+font-size: 11px;
+letter-spacing: 2px;
+margin-bottom: 14px;
+padding: 5px 12px;
+display: inline-block;
+border: 2px solid var(–dark);
+box-shadow: 2px 2px 0 var(–dark);
+}
+.q-text {
+font-size: 19px;
+font-weight: 700;
+line-height: 1.6;
+margin-bottom: 8px;
+color: var(–dark);
+}
+.q-emoji {
+font-size: 36px;
+display: block;
+margin-bottom: 12px;
+}
+
+.options-grid {
+display: flex;
+flex-direction: column;
+gap: 12px;
+}
+.option-btn {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 13px 16px;
+background: rgba(255,255,255,0.9);
+border: 3px solid var(–dark);
+box-shadow: 4px 4px 0 var(–dark);
+cursor: pointer;
+transition: all 0.1s;
+text-align: left;
+width: 100%;
+font-family: var(–body);
+}
+.option-btn:hover {
+transform: translate(-2px, -2px);
+box-shadow: 6px 6px 0 var(–dark);
+background: #FFF0F8;
+}
+.option-btn:active {
+transform: translate(3px, 3px);
+box-shadow: 1px 1px 0 var(–dark);
+}
+.option-btn.selected {
+background: linear-gradient(135deg, #FFE566, #FFD700);
+transform: translate(-2px, -2px);
+box-shadow: 6px 6px 0 var(–dark);
+}
+.opt-emoji { font-size: 22px; flex-shrink: 0; }
+.opt-text { font-size: 15px; font-weight: 500; line-height: 1.4; color: var(–dark); }
+
+/* 4-option grid */
+.options-grid.grid-2x2 {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+}
+.options-grid.grid-2x2 .option-btn {
+flex-direction: column;
+text-align: center;
+gap: 8px;
+padding: 16px 10px;
+}
+
+/* NEXT BTN */
+.next-btn {
+display: block;
+width: 100%;
+padding: 14px;
+background: linear-gradient(135deg, #b0f0e0, #7FFFD4);
+border: 3px solid var(–dark);
+box-shadow: 5px 5px 0 var(–dark);
+font-family: var(–pixel);
+font-size: 13px;
+color: var(–dark);
+cursor: pointer;
+transition: all 0.1s;
+opacity: 0.4;
+pointer-events: none;
+}
+.next-btn.enabled {
+opacity: 1;
+pointer-events: all;
+}
+.next-btn.enabled:hover {
+transform: translate(-2px, -2px);
+box-shadow: 7px 7px 0 var(–dark);
+}
+.next-btn.enabled:active {
+transform: translate(3px, 3px);
+box-shadow: 2px 2px 0 var(–dark);
+}
+
+/* ===== LOADING SCREEN ===== */
+#loadingScreen {
+text-align: center;
+padding: 60px 20px;
+}
+.loading-title {
+font-family: var(–pixel);
+font-size: 12px;
+margin-bottom: 30px;
+line-height: 2.2;
+color: var(–dark);
+}
+.pixel-loader {
+display: flex;
+justify-content: center;
+gap: 8px;
+margin: 30px 0;
+}
+.pixel-dot {
+width: 18px;
+height: 18px;
+border: 2px solid var(–dark);
+animation: pixelPulse 1s infinite;
+border-radius: 2px;
+}
+.pixel-dot:nth-child(1) { background: var(–pink); animation-delay: 0s; }
+.pixel-dot:nth-child(2) { background: var(–blue); animation-delay: 0.2s; }
+.pixel-dot:nth-child(3) { background: var(–yellow); animation-delay: 0.4s; }
+.pixel-dot:nth-child(4) { background: var(–mint); animation-delay: 0.6s; }
+.pixel-dot:nth-child(5) { background: var(–purple); animation-delay: 0.8s; }
+@keyframes pixelPulse {
+0%, 100% { transform: scaleY(1); }
+50% { transform: scaleY(2.2); }
+}
+
+/* ===== RESULT SCREEN ===== */
+.result-badge {
+text-align: center;
+margin-bottom: 20px;
+}
+.result-new {
+display: inline-block;
+background: linear-gradient(135deg, var(–orange), #FF7043);
+color: white;
+font-family: var(–pixel);
+font-size: 8px;
+padding: 6px 14px;
+border: 2px solid var(–dark);
+box-shadow: 3px 3px 0 var(–dark);
+margin-bottom: 12px;
+animation: blink 1s infinite;
+text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+}
+
+.result-card {
+border: 4px solid var(–dark);
+box-shadow: 8px 8px 0 var(–dark);
+overflow: hidden;
+margin-bottom: 20px;
+animation: popIn 0.5s ease;
+}
+.result-card-header {
+padding: 30px 24px 24px;
+text-align: center;
+position: relative;
+}
+.result-emoji-big {
+font-size: 64px;
+display: block;
+margin-bottom: 12px;
+animation: float 3s ease-in-out infinite;
+}
+.result-type-label {
+font-family: var(–pixel);
+font-size: 12px;
+margin-bottom: 10px;
+opacity: 0.8;
+color: var(–dark);
+}
+.result-name {
+font-size: 24px;
+font-weight: 700;
+line-height: 1.4;
+margin-bottom: 10px;
+color: var(–dark);
+}
+.result-mbti-tag {
+display: inline-block;
+font-family: var(–pixel);
+font-size: 12px;
+padding: 6px 14px;
+border: 2px solid var(–dark);
+box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+}
+
+.result-card-body {
+background: rgba(255,255,255,0.95);
+padding: 24px;
+border-top: 4px solid var(–dark);
+}
+.result-desc {
+font-size: 16px;
+line-height: 1.9;
+color: #3a1a5e;
+margin-bottom: 20px;
+font-weight: 400;
+}
+
+.result-tags {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+margin-bottom: 20px;
+}
+.result-tag {
+font-family: var(–pixel);
+font-size: 7px;
+padding: 7px 12px;
+border: 2px solid var(–dark);
+box-shadow: 2px 2px 0 var(–dark);
+}
+
+.result-section-title {
+font-family: var(–pixel);
+font-size: 12px;
+margin-bottom: 14px;
+display: flex;
+align-items: center;
+gap: 8px;
+color: var(–dark);
+}
+.result-section-title::before { content: ‘▶’; color: var(–pink); }
+
+.taste-list {
+display: flex;
+flex-direction: column;
+gap: 10px;
+margin-bottom: 20px;
+}
+.taste-item {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 12px 14px;
+border: 2px solid var(–dark);
+box-shadow: 3px 3px 0 var(–dark);
+font-size: 14px;
+font-weight: 400;
+}
+.taste-item-icon { font-size: 18px; }
+
+.compatibility {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+margin-bottom: 20px;
+}
+.compat-card {
+padding: 14px;
+border: 2px solid var(–dark);
+box-shadow: 3px 3px 0 var(–dark);
+text-align: center;
+}
+.compat-label {
+font-family: var(–pixel);
+font-size: 10px;
+margin-bottom: 8px;
+opacity: 0.8;
+}
+.compat-name {
+font-size: 13px;
+font-weight: 700;
+color: var(–dark);
+}
+
+/* SHARE / RETRY BTNS */
+.action-btns {
+display: flex;
+gap: 10px;
+margin-top: 20px;
+}
+.share-btn {
+flex: 1;
+padding: 14px;
+background: linear-gradient(135deg, var(–blue), #5BB8FF);
+border: 3px solid var(–dark);
+box-shadow: 5px 5px 0 var(–dark);
+font-family: var(–pixel);
+font-size: 12px;
+color: var(–dark);
+cursor: pointer;
+transition: all 0.1s;
+}
+.retry-btn {
+flex: 1;
+padding: 14px;
+background: rgba(255,255,255,0.9);
+border: 3px solid var(–dark);
+box-shadow: 5px 5px 0 var(–dark);
+font-family: var(–pixel);
+font-size: 12px;
+color: var(–dark);
+cursor: pointer;
+transition: all 0.1s;
+}
+.share-btn:hover, .retry-btn:hover {
+transform: translate(-2px, -2px);
+box-shadow: 7px 7px 0 var(–dark);
+}
+
+/* PIXEL ART DECORATORS */
+.pixel-deco {
+position: fixed;
+font-family: var(–pixel);
+font-size: 12px;
+opacity: 0.25;
+pointer-events: none;
+animation: float 4s ease-in-out infinite;
+z-index: 0;
+color: #C9A7FF;
+}
+.pd1 { top: 10%; left: 5%; animation-delay: 0s; }
+.pd2 { top: 30%; right: 5%; animation-delay: 1s; color: #FF9ECD; }
+.pd3 { bottom: 20%; left: 8%; animation-delay: 2s; color: #FFE566; }
+.pd4 { bottom: 10%; right: 8%; animation-delay: 0.5s; color: #7FFFD4; }
+
+/* TOAST */
+.toast {
+position: fixed;
+bottom: 30px;
+left: 50%;
+transform: translateX(-50%) translateY(100px);
+background: linear-gradient(135deg, var(–pink), var(–purple));
+color: white;
+font-family: var(–pixel);
+font-size: 8px;
+padding: 14px 22px;
+border: 2px solid var(–dark);
+box-shadow: 4px 4px 0 var(–dark);
+transition: transform 0.3s ease;
+z-index: 100;
+white-space: nowrap;
+text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+
+</head>
+<body>
+
+<canvas id="sparkleCanvas"></canvas>
+
+<!-- Pixel decorations -->
+
+<div class="pixel-deco pd1">✦ ✧ ✦</div>
+<div class="pixel-deco pd2">★ ☆ ★</div>
+<div class="pixel-deco pd3">♡ ♥ ♡</div>
+<div class="pixel-deco pd4">◆ ◇ ◆</div>
+
+<!-- Marquee -->
+
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <span>✦ 나는 어떤 감성으로 사는 사람일까? ✦ TASTE IDENTITY TEST 2025 ✦ 나만의 취향 정체성을 찾아봐 ✦ 18문항으로 알아보는 내 취향 DNA ✦</span>
+    <span>✦ 나는 어떤 감성으로 사는 사람일까? ✦ TASTE IDENTITY TEST 2025 ✦ 나만의 취향 정체성을 찾아봐 ✦ 18문항으로 알아보는 내 취향 DNA ✦</span>
+  </div>
+</div>
+
+<div id="app">
+
+  <!-- INTRO -->
+
+  <div id="introScreen" class="screen active">
+    <div class="intro-header">
+      <div class="site-badge">✦ TASTE IDENTITY TEST ✦</div>
+      <div class="float-icons">
+        <span class="float-icon">🌙</span>
+        <span class="float-icon">🎨</span>
+        <span class="float-icon">✨</span>
+        <span class="float-icon">🎲</span>
+        <span class="float-icon">🌿</span>
+      </div>
+      <div class="intro-title">
+        나는 어떤 감성으로<br>
+        <span class="highlight">사는 사람</span>일까?
+      </div>
+      <p class="intro-sub">MBTI + 취향으로 알아보는<br>나만의 정체성 테스트</p>
+    </div>
+
+```
+<div class="info-card">
+  <div class="info-card-title">이런 걸 알 수 있어요</div>
+  <div class="info-row">
+    <span class="info-icon">🧬</span>
+    <span class="info-text">나의 에너지 원천과 감성 축을 분석해드려요</span>
+  </div>
+  <div class="info-row">
+    <span class="info-icon">🎨</span>
+    <span class="info-text">취향 DNA로 8가지 정체성 유형 중 나를 찾아드려요</span>
+  </div>
+  <div class="info-row">
+    <span class="info-icon">💌</span>
+    <span class="info-text">나에게 맞는 공간, 음악, 취미 스타일도 알려드려요</span>
+  </div>
+  <div class="info-row">
+    <span class="info-icon">👯</span>
+    <span class="info-text">잘 맞는 유형 & 의외로 잘 통하는 유형도 공개!</span>
+  </div>
+</div>
+
+<button class="start-btn" onclick="startTest()">
+  ▶ START — 테스트 시작하기 ◀
+</button>
+```
+
+  </div>
+
+  <!-- QUESTION -->
+
+  <div id="questionScreen" class="screen">
+    <div class="q-header">
+      <div class="q-progress-label">
+        <span class="q-num" id="qNum">Q.01</span>
+        <span class="q-count" id="qCount">1 / 18</span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressFill" style="width:5%"></div>
+      </div>
+    </div>
+    <div class="q-card" id="qCard">
+      <!-- Dynamically filled -->
+    </div>
+    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">
+      다음 질문 ▶
+    </button>
+  </div>
+
+  <!-- LOADING -->
+
+  <div id="loadingScreen" class="screen">
+    <div class="loading-title">
+      취향 분석 중...<br>
+      잠깐만 기다려줘 ✦
+    </div>
+    <div class="pixel-loader">
+      <div class="pixel-dot"></div>
+      <div class="pixel-dot"></div>
+      <div class="pixel-dot"></div>
+      <div class="pixel-dot"></div>
+      <div class="pixel-dot"></div>
+    </div>
+    <p style="font-family: var(--pixel); font-size: 8px; opacity: 0.5; margin-top: 20px;">ANALYZING YOUR TASTE DNA...</p>
+  </div>
+
+  <!-- RESULT -->
+
+  <div id="resultScreen" class="screen">
+    <!-- Dynamically filled -->
+  </div>
+
+</div>
+
+<div class="toast" id="toast">📋 링크가 복사됐어! 친구한테 공유해봐</div>
+
+<script>
+const questions = [
+  {
+    category: "ENERGY",
+    emoji: "⚡",
+    text: "주말 계획이 갑자기 취소됐을 때?",
+    type: "EI",
+    options: [
+      { emoji: "😮", text: "아쉽다, 다른 계획 빨리 세워야지", value: "E" },
+      { emoji: "😌", text: "사실 좀 홀가분하다", value: "I" }
+    ]
+  },
+  {
+    category: "ENERGY",
+    emoji: "☕",
+    text: "카페에서 혼자 있을 때 나는?",
+    type: "EI",
+    options: [
+      { emoji: "👀", text: "주변 사람 구경하는 게 은근 재밌다", value: "E" },
+      { emoji: "🎧", text: "이어폰 끼고 완전 내 세계에 빠진다", value: "I" }
+    ]
+  },
+  {
+    category: "ENERGY",
+    emoji: "🔋",
+    text: "내 에너지는 주로 어디서 채워질까?",
+    type: "EI",
+    options: [
+      { emoji: "🎉", text: "사람들이랑 신나게 어울릴 때", value: "E" },
+      { emoji: "🛁", text: "혼자만의 조용한 시간 후", value: "I" }
+    ]
+  },
+  {
+    category: "SENSORY",
+    emoji: "📸",
+    text: "여행 중 사진 찍을 때 나는?",
+    type: "SN",
+    options: [
+      { emoji: "📸", text: "그 순간 느낌 그대로 담는다", value: "S" },
+      { emoji: "🌅", text: "구도랑 빛까지 생각하고 찍는다", value: "N" }
+    ]
+  },
+  {
+    category: "SENSORY",
+    emoji: "🎬",
+    text: "내가 더 오래 보게 되는 콘텐츠는?",
+    type: "SN",
+    options: [
+      { emoji: "🌌", text: "스토리·세계관이 깊은 것", value: "N" },
+      { emoji: "🍿", text: "가볍게 술술 보이는 것", value: "S" }
+    ]
+  },
+  {
+    category: "SENSORY",
+    emoji: "🛍️",
+    text: "무언가 살 때 나는?",
+    type: "SN",
+    options: [
+      { emoji: "✨", text: "이게 내 인생템이 될 것 같은 느낌이 온다", value: "N" },
+      { emoji: "📊", text: "스펙이랑 리뷰 꼼꼼히 확인하고 결정", value: "S" }
+    ]
+  },
+  {
+    category: "FEELING",
+    emoji: "🫂",
+    text: "친구가 고민을 털어놓을 때 나는?",
+    type: "TF",
+    options: [
+      { emoji: "💡", text: "어떻게 해결할지 먼저 생각난다", value: "T" },
+      { emoji: "🤗", text: "일단 공감하고 같이 속상해한다", value: "F" }
+    ]
+  },
+  {
+    category: "FEELING",
+    emoji: "🤔",
+    text: "중요한 걸 결정할 때 나는?",
+    type: "TF",
+    options: [
+      { emoji: "🧠", text: "장단점 따져보고 이성적으로 판단", value: "T" },
+      { emoji: "💫", text: "그냥 끌리는 대로, 느낌을 믿는다", value: "F" }
+    ]
+  },
+  {
+    category: "FEELING",
+    emoji: "🎵",
+    text: "플레이리스트를 만든다면?",
+    type: "TF",
+    options: [
+      { emoji: "🌊", text: "분위기·감성으로 묶는다", value: "F" },
+      { emoji: "🎸", text: "장르나 아티스트 기준으로 묶는다", value: "T" }
+    ]
+  },
+  {
+    category: "LIFESTYLE",
+    emoji: "✈️",
+    text: "여행 준비할 때 나는?",
+    type: "JP",
+    options: [
+      { emoji: "📅", text: "숙소·맛집 다 예약하고 일정 짠다", value: "J" },
+      { emoji: "🎲", text: "그냥 가서 보이는 대로 즐긴다", value: "P" }
+    ]
+  },
+  {
+    category: "LIFESTYLE",
+    emoji: "🏠",
+    text: "내 방 상태는?",
+    type: "JP",
+    options: [
+      { emoji: "🗂️", text: "물건마다 자리가 있다", value: "J" },
+      { emoji: "🌀", text: "나만 아는 질서가 있다", value: "P" }
+    ]
+  },
+  {
+    category: "LIFESTYLE",
+    emoji: "🌞",
+    text: "하루 루틴은?",
+    type: "JP",
+    options: [
+      { emoji: "⏰", text: "비슷한 패턴이 훨씬 편하다", value: "J" },
+      { emoji: "🌊", text: "그날그날 달라야 살 것 같다", value: "P" }
+    ]
+  },
+  {
+    category: "TASTE",
+    emoji: "🏡",
+    text: "내 공간에 꼭 있어야 하는 것은?",
+    type: "TASTE",
+    layout: "2x2",
+    options: [
+      { emoji: "🕯️", text: "무드등·캔들", value: "F" },
+      { emoji: "📚", text: "책·잡지", value: "N" },
+      { emoji: "🎮", text: "오락거리", value: "E" },
+      { emoji: "🌿", text: "식물·자연", value: "S" }
+    ]
+  },
+  {
+    category: "TASTE",
+    emoji: "😴",
+    text: "쉬는 날 이상적인 하루는?",
+    type: "TASTE",
+    layout: "2x2",
+    options: [
+      { emoji: "🏙️", text: "새로운 공간 탐방", value: "E" },
+      { emoji: "🏠", text: "집에서 뒹굴", value: "I" },
+      { emoji: "🚶", text: "혼자 산책·카페", value: "IN" },
+      { emoji: "👯", text: "친구들과 수다", value: "EF" }
+    ]
+  },
+  {
+    category: "TASTE",
+    emoji: "🎨",
+    text: "나를 표현하는 색은?",
+    type: "TASTE",
+    layout: "2x2",
+    options: [
+      { emoji: "🖤", text: "무채색 계열", value: "T" },
+      { emoji: "🌸", text: "파스텔 계열", value: "F" },
+      { emoji: "🔴", text: "원색 계열", value: "E" },
+      { emoji: "🤎", text: "어스톤 계열", value: "S" }
+    ]
+  },
+  {
+    category: "TASTE",
+    emoji: "📱",
+    text: "콘텐츠 소비 방식은?",
+    type: "JP",
+    options: [
+      { emoji: "🐰", text: "한 번에 몰아보기", value: "P" },
+      { emoji: "🐢", text: "조금씩 음미하며 보기", value: "J" }
+    ]
+  },
+  {
+    category: "TASTE",
+    emoji: "🎯",
+    text: "새 취미가 생겼을 때 나는?",
+    type: "JP",
+    options: [
+      { emoji: "🔥", text: "일단 장비부터 풀세팅", value: "P" },
+      { emoji: "👀", text: "해보고 맞으면 투자한다", value: "J" }
+    ]
+  },
+  {
+    category: "CORE",
+    emoji: "💎",
+    text: "내게 가장 중요한 것은?",
+    type: "TASTE",
+    layout: "2x2",
+    options: [
+      { emoji: "🌱", text: "성장", value: "N" },
+      { emoji: "💞", text: "관계", value: "F" },
+      { emoji: "🎨", text: "표현", value: "NF" },
+      { emoji: "🔥", text: "자유", value: "P" }
+    ]
+  }
+];
+
+const results = {
+  INFP: {
+    emoji: "🌙",
+    name: "새벽 감성 수집가",
+    mbti: "INFP / INFJ",
+    color: "#C9A7FF",
+    desc: "혼자 무드등 켜고 플리 들으며 감성 충전하는 타입이에요. 작은 것에서 아름다움을 발견하고, 나만의 세계가 뚜렷한 사람. 겉으론 조용하지만 내면엔 엄청난 상상력과 감수성이 넘쳐요.",
+    tags: ["#감성충만", "#몽환적", "#내면탐구", "#새벽감성", "#조용한열정"],
+    tastes: [
+      { emoji: "🎵", text: "Lo-fi, 인디, 어쿠스틱 플레이리스트" },
+      { emoji: "🕯️", text: "무드등·캔들이 있는 조용한 공간" },
+      { emoji: "📖", text: "소설, 에세이, 시집 읽기" },
+      { emoji: "🎞️", text: "감성 영화·드라마 몰아보기" }
+    ],
+    good: "⚡ 즉흥 탐험가",
+    surprise: "📐 취향 큐레이터"
+  },
+  ENFP: {
+    emoji: "☀️",
+    name: "바이브 메이커",
+    mbti: "ENFP / ENFJ",
+    color: "#FFE566",
+    desc: "분위기를 만들고 에너지를 나눠주는 사람. 어딜 가든 분위기가 살아나고, 새로운 사람과 경험에 항상 설레는 타입이에요. 호기심이 많고 하고 싶은 게 넘쳐서 삶이 늘 흥미로워요.",
+    tags: ["#에너지덩어리", "#분위기메이커", "#호기심만렙", "#새로운거좋아", "#바이브"],
+    tastes: [
+      { emoji: "🎪", text: "팝업스토어, 전시, 새로운 공간 탐방" },
+      { emoji: "🎵", text: "신나는 팝, 흥겨운 플레이리스트" },
+      { emoji: "📸", text: "인생샷 찍기, 감성 사진 기록" },
+      { emoji: "👯", text: "친구들과 새로운 곳 함께 가기" }
+    ],
+    good: "🌙 새벽 감성 수집가",
+    surprise: "🔮 내면 탐구자"
+  },
+  INTJ: {
+    emoji: "📐",
+    name: "취향 큐레이터",
+    mbti: "INTJ / INTP",
+    color: "#7EC8FF",
+    desc: "한 가지를 깊게, 나만의 기준으로 파고드는 사람. 좋아하는 걸 발견하면 끝까지 탐구하고, 자신만의 확고한 취향을 가지고 있어요. 남들이 지나치는 것에서 가치를 발견하는 안목이 있죠.",
+    tags: ["#취향확고", "#깊게파기", "#나만의기준", "#큐레이터감성", "#독보적"],
+    tastes: [
+      { emoji: "📚", text: "전문 서적, 장르 깊게 파기" },
+      { emoji: "🎧", text: "장르 중심 플레이리스트 큐레이팅" },
+      { emoji: "🏛️", text: "미술관, 독립서점, 오래된 카페" },
+      { emoji: "🔍", text: "한 가지 취미에 완전 몰입" }
+    ],
+    good: "🌿 조용한 관찰자",
+    surprise: "☀️ 바이브 메이커"
+  },
+  ENTP: {
+    emoji: "🎲",
+    name: "즉흥 탐험가",
+    mbti: "ENTP / ENTJ",
+    color: "#FF9ECD",
+    desc: "새로운 걸 발견하면 바로 달려가는 사람. 계획보다는 순간의 직감을 믿고, 예상치 못한 경험에서 가장 빛나요. 트렌드를 남보다 빨리 발견하고, 늘 다음 탐험을 기다리는 타입이에요.",
+    tags: ["#즉흥파", "#트렌드선구자", "#탐험가", "#새로운거먼저", "#도전정신"],
+    tastes: [
+      { emoji: "🗺️", text: "즉흥 여행, 새로운 동네 탐방" },
+      { emoji: "🍜", text: "처음 보는 메뉴 도전하기" },
+      { emoji: "🎮", text: "새로 나온 게임, 콘텐츠 빠르게 섭렵" },
+      { emoji: "🎪", text: "팝업, 플리마켓, 일회성 경험" }
+    ],
+    good: "🎪 감성 유목민",
+    surprise: "📐 취향 큐레이터"
+  },
+  ISFJ: {
+    emoji: "🌿",
+    name: "조용한 관찰자",
+    mbti: "ISFJ / ISTJ",
+    color: "#7FFFD4",
+    desc: "디테일을 절대 놓치지 않는 섬세한 사람. 조용하지만 주변을 가장 잘 파악하고 있고, 익숙한 것의 소중함을 아는 타입이에요. 루틴 속에서 작은 행복을 찾고 깊은 관계를 소중히 해요.",
+    tags: ["#섬세함", "#관찰력", "#따뜻함", "#루틴러버", "#깊은관계"],
+    tastes: [
+      { emoji: "☕", text: "단골 카페, 익숙한 루트 산책" },
+      { emoji: "🌱", text: "식물 키우기, 홈카페" },
+      { emoji: "📔", text: "일기 쓰기, 사진 정리하기" },
+      { emoji: "🍳", text: "요리, 베이킹 등 손 쓰는 취미" }
+    ],
+    good: "📐 취향 큐레이터",
+    surprise: "🎲 즉흥 탐험가"
+  },
+  ESFP: {
+    emoji: "🎪",
+    name: "감성 유목민",
+    mbti: "ESFP / ESFJ",
+    color: "#FFB347",
+    desc: "경험과 사람을 수집하는 사람. 어디서든 즐길 거리를 찾고, 좋은 사람들과 함께하는 순간을 가장 소중히 해요. 다양한 취향을 넘나들며 자신만의 감성 지도를 만들어가는 타입이에요.",
+    tags: ["#경험수집가", "#사람좋아", "#감성유목민", "#다양한취향", "#순간충실"],
+    tastes: [
+      { emoji: "🌏", text: "다양한 문화·음식·공간 경험" },
+      { emoji: "📱", text: "SNS에 감성 기록 남기기" },
+      { emoji: "🛍️", text: "스타일링, 패션 탐구" },
+      { emoji: "🎵", text: "장르 불문 기분 따라 음악" }
+    ],
+    good: "☀️ 바이브 메이커",
+    surprise: "🌿 조용한 관찰자"
+  },
+  ISFP: {
+    emoji: "🔮",
+    name: "내면 탐구자",
+    mbti: "ISFP / ISTP",
+    color: "#FF9ECD",
+    desc: "나만의 세계가 뚜렷하고 표현이 독특한 사람. 남들과 다른 방식으로 세상을 바라보고, 자신의 감각과 직관을 신뢰해요. 예술적 감수성이 높고 나만의 미학이 있는 타입이에요.",
+    tags: ["#독창적", "#나만의미학", "#감각적", "#아티스트감성", "#자유로운영혼"],
+    tastes: [
+      { emoji: "🎨", text: "드로잉, 사진, 핸드메이드 공예" },
+      { emoji: "🎵", text: "마이너한 음악, 나만 아는 아티스트" },
+      { emoji: "🏪", text: "독립 브랜드, 빈티지 탐방" },
+      { emoji: "🌙", text: "혼자 하는 창작 활동" }
+    ],
+    good: "🌙 새벽 감성 수집가",
+    surprise: "🎪 감성 유목민"
+  },
+  ESTP: {
+    emoji: "⚡",
+    name: "에너지 크리에이터",
+    mbti: "ESTP / ESTJ",
+    color: "#FFE566",
+    desc: "행동이 먼저, 생각은 나중인 사람. 실제로 해봐야 알 수 있다는 주의고, 도전을 즐기며 에너지가 넘쳐요. 빠르게 판단하고 행동하면서 주변에 활력을 불어넣는 타입이에요.",
+    tags: ["#행동파", "#도전가", "#에너지넘침", "#결과주의", "#리더십"],
+    tastes: [
+      { emoji: "🏋️", text: "운동, 스포츠, 액티비티" },
+      { emoji: "🎮", text: "경쟁 게임, 도전적인 취미" },
+      { emoji: "🍖", text: "맛있는 것 먹으러 직접 가기" },
+      { emoji: "🚀", text: "새로운 프로젝트, 사이드 도전" }
+    ],
+    good: "🎲 즉흥 탐험가",
+    surprise: "🌿 조용한 관찰자"
+  }
+};
+
+let currentQ = 0;
+let answers = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+let selectedOption = null;
+
+const categoryColors = {
+  ENERGY: "#FF9ECD",
+  SENSORY: "#7EC8FF",
+  FEELING: "#C9A7FF",
+  LIFESTYLE: "#7FFFD4",
+  TASTE: "#FFE566",
+  CORE: "#FFB347"
+};
+
+function startTest() {
+  showScreen('questionScreen');
+  renderQuestion();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  const progress = ((currentQ + 1) / questions.length) * 100;
+  document.getElementById('progressFill').style.width = progress + '%';
+  document.getElementById('qNum').textContent = 'Q.' + String(currentQ + 1).padStart(2, '0');
+  document.getElementById('qCount').textContent = (currentQ + 1) + ' / ' + questions.length;
+
+  const isGrid = q.layout === '2x2';
+  const optionsHTML = q.options.map((o, i) =>
+    `<button class="option-btn" onclick="selectOption(${i}, '${o.value}')" id="opt${i}">
+      <span class="opt-emoji">${o.emoji}</span>
+      <span class="opt-text">${o.text}</span>
+    </button>`
+  ).join('');
+
+  document.getElementById('qCard').innerHTML = `
+    <span class="q-category" style="background:${categoryColors[q.category] || '#eee'}">${q.category}</span>
+    <span class="q-emoji">${q.emoji}</span>
+    <div class="q-text">${q.text}</div>
+    <div class="options-grid ${isGrid ? 'grid-2x2' : ''}" style="margin-top:16px">
+      ${optionsHTML}
+    </div>
+  `;
+
+  selectedOption = null;
+  const btn = document.getElementById('nextBtn');
+  btn.classList.remove('enabled');
+  btn.textContent = currentQ === questions.length - 1 ? '결과 보기 ▶' : '다음 질문 ▶';
+}
+
+function selectOption(idx, value) {
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('opt' + idx).classList.add('selected');
+  selectedOption = value;
+  document.getElementById('nextBtn').classList.add('enabled');
+}
+
+function nextQuestion() {
+  if (!selectedOption) return;
+
+  // Score the answer
+  const vals = selectedOption.split('');
+  vals.forEach(v => { if (answers[v] !== undefined) answers[v]++; });
+
+  currentQ++;
+  if (currentQ >= questions.length) {
+    showLoading();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showLoading() {
+  showScreen('loadingScreen');
+  setTimeout(showResult, 2200);
+}
+
+function getResultKey() {
+  const e = answers.E >= answers.I ? 'E' : 'I';
+  const n = answers.N >= answers.S ? 'N' : 'S';
+  const f = answers.F >= answers.T ? 'F' : 'T';
+  const p = answers.P >= answers.J ? 'P' : 'J';
+  const key = e + n + f + p;
+  const map = {
+    INFP: 'INFP', INFJ: 'INFP', ENFP: 'ENFP', ENFJ: 'ENFP',
+    INTJ: 'INTJ', INTP: 'INTJ', ENTP: 'ENTP', ENTJ: 'ENTP',
+    ISFJ: 'ISFJ', ISTJ: 'ISFJ', ESFJ: 'ESFP', ESTJ: 'ESTP',
+    ISFP: 'ISFP', ISTP: 'ISFP', ESFP: 'ESFP', ESTP: 'ESTP'
+  };
+  return map[key] || 'INFP';
+}
+
+function showResult() {
+  const key = getResultKey();
+  const r = results[key];
+
+  const tastes = r.tastes.map(t =>
+    `<div class="taste-item" style="background:${r.color}22; border-color: ${r.color};">
+      <span class="taste-item-icon">${t.emoji}</span>
+      <span>${t.text}</span>
+    </div>`
+  ).join('');
+
+  const tags = r.tags.map(t =>
+    `<span class="result-tag" style="background:${r.color}44">${t}</span>`
+  ).join('');
+
+  document.getElementById('resultScreen').innerHTML = `
+    <div class="result-badge">
+      <div class="result-new">✦ 결과 완성! ✦</div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-card-header" style="background: linear-gradient(135deg, ${r.color}88, ${r.color}44)">
+        <span class="result-emoji-big">${r.emoji}</span>
+        <div class="result-type-label">YOUR TASTE IDENTITY</div>
+        <div class="result-name">${r.name}</div>
+        <div class="result-mbti-tag" style="background:${r.color}">${r.mbti} 기반</div>
+      </div>
+
+      <div class="result-card-body">
+        <p class="result-desc">${r.desc}</p>
+
+        <div class="result-tags">${tags}</div>
+
+        <div class="result-section-title">나에게 맞는 취향 스타일</div>
+        <div class="taste-list">${tastes}</div>
+
+        <div class="result-section-title">궁합 유형</div>
+        <div class="compatibility">
+          <div class="compat-card" style="background: #e8f5e9; border-color: #4caf50">
+            <div class="compat-label">💚 잘 맞는 유형</div>
+            <div class="compat-name">${r.good}</div>
+          </div>
+          <div class="compat-card" style="background: #fff3e0; border-color: #ff9800">
+            <div class="compat-label">🧡 의외로 잘 통하는</div>
+            <div class="compat-name">${r.surprise}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-btns">
+      <button class="share-btn" onclick="shareResult('${r.name}')">🔗 결과 공유하기</button>
+      <button class="retry-btn" onclick="retryTest()">↺ 다시 하기</button>
+    </div>
+  `;
+
+  showScreen('resultScreen');
+}
+
+function shareResult(name) {
+  const text = `나의 취향 정체성은 "${name}"! 너는 뭐야?`;
+  if (navigator.share) {
+    navigator.share({ title: '취향 정체성 테스트', text, url: location.href });
+  } else {
+    navigator.clipboard.writeText(location.href).then(() => showToast());
+  }
+}
+
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function retryTest() {
+  currentQ = 0;
+  answers = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+  selectedOption = null;
+  showScreen('questionScreen');
+  renderQuestion();
+}
+
+// ===== SPARKLE EFFECT =====
+const canvas = document.getElementById('sparkleCanvas');
+const ctx = canvas.getContext('2d');
+let sparkles = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const sparkleColors = ['#FF9ECD','#C9A7FF','#FFE566','#7EC8FF','#7FFFD4','#FFB347','#FF6EC7'];
+
+class Sparkle {
+  constructor(x, y) {
+    this.x = x ?? Math.random() * canvas.width;
+    this.y = y ?? Math.random() * canvas.height;
+    this.size = Math.random() * 6 + 3;
+    this.color = sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
+    this.alpha = Math.random() * 0.8 + 0.2;
+    this.life = 1;
+    this.decay = Math.random() * 0.015 + 0.008;
+    this.vx = (Math.random() - 0.5) * 1.5;
+    this.vy = (Math.random() - 0.5) * 1.5 - 0.5;
+    this.rotation = Math.random() * Math.PI * 2;
+    this.rotSpeed = (Math.random() - 0.5) * 0.15;
+    this.type = Math.floor(Math.random() * 3); // 0=star, 1=diamond, 2=circle
+  }
+
+  draw() {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.rotation);
+    ctx.globalAlpha = this.life * this.alpha;
+    ctx.fillStyle = this.color;
+    ctx.strokeStyle = this.color;
+
+    if (this.type === 0) {
+      // 4-pointed star
+      const s = this.size;
+      ctx.beginPath();
+      for (let i = 0; i < 8; i++) {
+        const r = i % 2 === 0 ? s : s * 0.4;
+        const a = (i * Math.PI) / 4;
+        if (i === 0) ctx.moveTo(Math.cos(a)*r, Math.sin(a)*r);
+        else ctx.lineTo(Math.cos(a)*r, Math.sin(a)*r);
+      }
+      ctx.closePath();
+      ctx.fill();
+    } else if (this.type === 1) {
+      // Diamond
+      const s = this.size;
+      ctx.beginPath();
+      ctx.moveTo(0, -s);
+      ctx.lineTo(s*0.6, 0);
+      ctx.lineTo(0, s);
+      ctx.lineTo(-s*0.6, 0);
+      ctx.closePath();
+      ctx.fill();
+    } else {
+      // Plus/cross sparkle
+      const s = this.size;
+      ctx.lineWidth = s * 0.3;
+      ctx.beginPath();
+      ctx.moveTo(-s, 0); ctx.lineTo(s, 0);
+      ctx.moveTo(0, -s); ctx.lineTo(0, s);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    this.rotation += this.rotSpeed;
+    this.life -= this.decay;
+    return this.life > 0;
+  }
+}
+
+// Auto-spawn ambient sparkles
+function spawnAmbient() {
+  if (sparkles.length < 40) {
+    sparkles.push(new Sparkle());
+  }
+}
+
+// Spawn on click/touch
+document.addEventListener('click', (e) => {
+  for (let i = 0; i < 8; i++) {
+    sparkles.push(new Sparkle(e.clientX + (Math.random()-0.5)*40, e.clientY + (Math.random()-0.5)*40));
+  }
+});
+
+function animateSparkles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  sparkles = sparkles.filter(s => s.update());
+  sparkles.forEach(s => s.draw());
+  requestAnimationFrame(animateSparkles);
+}
+
+setInterval(spawnAmbient, 300);
+animateSparkles();
+</script>
+
+</body>
+</html>
