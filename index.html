@@ -195,8 +195,6 @@ flex-direction: column;
 justify-content: center;
 padding: 16px 0 20px;
 overflow: visible;
-border: 2px dashed #cccccc;
-border-radius: 12px;
 }
 
 #introScreen.active {
@@ -1470,9 +1468,11 @@ animateSparkles();
   
   // STAR CURSOR
 const starCursor = document.getElementById('starCursor');
-document.addEventListener('mousemove', (e) => {
 starCursor.style.left = '-100px';
 starCursor.style.top = '-100px';
+document.addEventListener('mousemove', (e) => {
+  starCursor.style.left = e.clientX + 'px';
+  starCursor.style.top = e.clientY + 'px';
 });
 
 </script>
