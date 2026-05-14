@@ -2,16 +2,6 @@
 
 <html lang="ko">
 <head>
-@keyframes twinkle {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
-
-#introScreen .intro-title { animation: twinkle 1.5s ease-in-out infinite; }
-#introScreen .intro-sub { animation: twinkle 2s ease-in-out infinite; }
-#introScreen .site-badge { animation: twinkle 1s ease-in-out infinite; }
-#introScreen .info-card { animation: twinkle 2.5s ease-in-out infinite; }
-#introScreen .start-btn { animation: twinkle 1.2s ease-in-out infinite; }
   <style>
 #starCursor {
   position: fixed;
@@ -67,6 +57,8 @@ font-family: var(–body);
 background: var(–bg);
 color: var(–dark);
 overflow-x: hidden;
+display: flex;
+justify-content: center;
 }
 
 /* PIXEL BORDER MIXIN */
@@ -172,7 +164,7 @@ padding: 0 40px;
 #app {
 position: relative;
 z-index: 1;
-max-width: 680px;
+max-width: 390px;
 margin: 0 auto;
 padding: 0 16px 60px;
 }
