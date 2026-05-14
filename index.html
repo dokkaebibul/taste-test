@@ -3,6 +3,14 @@
 <html lang="ko">
 <head>
 <style>
+#starCursor {
+  position: fixed;
+  pointer-events: none;
+  font-size: 22px;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+
 @import url('https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css');
 @font-face {
   font-family: 'Galmuri11';
@@ -27,7 +35,7 @@
 }
 </style>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-weight: 700; cursor; none; }
 
 :root {
 –pink: #FF9ECD;
@@ -243,7 +251,7 @@ background: rgba(255,255,255,0.85);
 backdrop-filter: blur(8px);
 border: 3px solid var(–dark);
 box-shadow: 5px 5px 0 var(–dark);
-padding: 14px 18px;
+padding: 10px 14px;
 margin: 0;
 border-radius: 4px;
 flex: 1;
@@ -706,6 +714,7 @@ text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
 <body>
 
 <canvas id="sparkleCanvas"></canvas>
+<div id="starCursor">⭐</div>  
 
 <!-- Pixel decorations -->
 
@@ -744,7 +753,7 @@ text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
       <p class="intro-sub">MBTI + 취향으로 알아보는<br>나만의 정체성 테스트</p>
     </div>
 
-✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨
+✨🧬🎨💌👯🧬🎨💌👯🧬🎨💌👯🧬🎨💌👯🧬🎨💌👯🧬🎨💌👯🧬🎨💌👯✨
 <div class="info-card">
   <div class="info-card-title">이런 걸 알 수 있어요</div>
   <div class="info-row">
@@ -768,7 +777,7 @@ text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
 <button class="start-btn" onclick="startTest()">
   ▶ START — 테스트 시작하기 ◀
 </button>
-✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨
+✨🧬🎨💌👯🧬🎨💌👯🧬🎨💌👯🧬🎨💌👯🧬🎨💌👯🧬🎨💌👯🧬🎨💌👯✨
 
   </div>
 
@@ -1427,6 +1436,13 @@ function animateSparkles() {
 
 setInterval(spawnAmbient, 300);
 animateSparkles();
+  // STAR CURSOR
+const starCursor = document.getElementById('starCursor');
+document.addEventListener('mousemove', (e) => {
+  starCursor.style.left = e.clientX + 'px';
+  starCursor.style.top = e.clientY + 'px';
+});
+
 </script>
 
 </body>
